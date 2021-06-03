@@ -9,8 +9,8 @@ const app = express();
 
 app.set('view engine', 'ejs');
 
-let items = ["Buy Food", "Cook Food",];
-let workItems =["one", "two",];
+const items = ["Buy Food", "Cook Food",];
+const workItems =["one", "two",];
 
 // app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({extended: true}));
@@ -23,7 +23,7 @@ app.use(express.static("public"));
 
 app.get("/", (req, res) => {
 
-  let day = date();
+  const day = date.getDate();
 
   res.render("list", {listTitle: day, newListItems: items});
 
