@@ -8,16 +8,18 @@ const app = express();
 app.set('view engine', 'ejs');
 
 let items = ["Buy Food", "Cook Food",];
+let workItems =[];
 
 // app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({extended: true}));
-
 app.use(express.json());
 app.use(express.urlencoded({
   extended: true
 }));
 
-app.get("/", function(req, res){
+app.use(express.static("public"));
+
+app.get("/", (req, res) => {
   let today = new Date();
   let options = {
     weekday: "long",
@@ -25,10 +27,20 @@ app.get("/", function(req, res){
     month: "long"
   };
 
-  let day = today.toLocaleDateString("en-US", options)
-  res.render("list", {kindOfDay: day, newListItems: items});
+  let day = today.toLocaleDateString("en-US", options);
+  res.render("list", {listTitle: day, newListItems: items});
 
 });
+
+app.get("/work", (req, res) => {
+  res.render("list", {listTitle: "Work List", newListItems: workItems});
+})
+
+app.post("/work", (req, res) => {
+  let item = req.body.newItem;
+  workItems.push(item);
+  res.redirect("/work")
+})
 
 app.post("/", (req, res) => {
  let item = req.body.newItem;
